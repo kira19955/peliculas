@@ -13,19 +13,24 @@
                          'size':['',128]}"/>
 
                         <div class="oe_title">
+                            <field name="active" invisible="1"/>
                             <div class="o_row">
-                                <h1><field name="name" placeholder="Nombre de la pelicula....." required="1" default_focus="1"/></h1>
-                                <field name="puntuacion" widget="percentpie" string=" " style="padding-left: 10px;"/>
+                                <h1 style="display: flex;"><field name="name" placeholder="Nombre de la pelicula....." required="1" default_focus="1" class="oe_inline"/>
+                                <field name="puntuacion" widget="percentpie" string=" " style="padding-left: 10px;" class="oe_inline"/>
+                                <field name="puntuacion2" placeholder="Puntuacion de Usuario" class="oe_edit_only oe_inline"/>
+                                </h1>
                             </div>
                         </div>
-                    <group>
-                        <group>
-                            <field name="clasificacion"/>
-                        </group>
-                        <group>
-                            <field name="active" invisible="1"/>
-                        </group>
-                    </group>
+
+                        <div class="o_row" style="display: flex;">
+                            <field name="clasificacion" required="1"/>
+                            <span class="fa fa-circle" attrs="{'invisible':[('clasificacion','=',False),('fch_estreno','=',False)]}" style="font-size: 8px;padding:5px 5px"/>
+                            <field name="fch_estreno"/>
+                        </div>
+
+                        <div class="o_row">
+                            <field name="generos_ids" widget="many2many_tags" style="display: flex;"/>
+                        </div>
                     </sheet>
                 </form>
             </field>

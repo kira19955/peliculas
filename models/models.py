@@ -14,7 +14,7 @@ class  Presupuesto(models.Model):
                                                ('r', 'R'),
                                                ('nc-17', 'NC-17')
                                                ], string="Clasificacion")
-    puntuacion = fields.Integer(string="Puntuacion")
+    puntuacion = fields.Integer(string="Puntuacion", related="puntuacion2")
     active = fields.Boolean(string="Activo", default=True)
     director_id = fields.Many2one(comodel_name="res.partner", string="Director")
     generos_ids = fields.Many2many(comodel_name="genero", string="Genero")
@@ -22,4 +22,6 @@ class  Presupuesto(models.Model):
     link_trailer = fields.Char(string="Link Trailer")
     es_libro = fields.Boolean(string="Version Libro")
     libro = fields.Binary(string="Libro")
+    puntuacion2 = fields.Integer(string="Puntuacion")
+
 

@@ -31,6 +31,20 @@
                         <div class="o_row">
                             <field name="generos_ids" widget="many2many_tags" style="display: flex;"/>
                         </div>
+
+                        <group string="Datos Principales" style="margin-top: -10px;">
+                            <field name="vista_general" placeholder="Vista General..."/>
+                            <group>
+                                <field name="director_id" domain="[('category_id', 'in',[categoria_director_id])]" options="{'no_create': True, 'no_open':True}"/>
+                                <field name="categoria_director_id" invisible="1"/>
+                                <field name="link_trailer" widget="url"/>
+                            </group>
+                            <group>
+                                <field name="es_libro" widget="boolean_toggle"/>
+                                <field name="libro" attrs="{'invisible':[('es_libro','=',False)]}" filename="libro_file"/>
+                                <field name="libro_file" invisible="1"/>
+                            </group>
+                        </group>
                     </sheet>
                 </form>
             </field>

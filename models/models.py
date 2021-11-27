@@ -23,5 +23,11 @@ class  Presupuesto(models.Model):
     es_libro = fields.Boolean(string="Version Libro")
     libro = fields.Binary(string="Libro")
     puntuacion2 = fields.Integer(string="Puntuacion")
+    libro_file = fields.Char(string="Nombre del libro")
+    categoria_director_id = fields.Many2one(comodel_name="res.partner.category", string="Categoria Director", default=lambda self: self.env['res.partner.category'].search([('name', '=', 'Director')]))
+    state = fields.Selection(selection=[('borrador', 'Borrador'),
+                                        ('aprobado', 'Aprobado'),
+                                        ('cancelado', 'Cancelado')],
+                             default="borrador", string="Estados", copy=False)
 
 

@@ -30,4 +30,10 @@ class  Presupuesto(models.Model):
                                         ('cancelado', 'Cancelado')],
                              default="borrador", string="Estados", copy=False)
 
+    def aprobar_presupuesto(self):
+        print("hola mundo")
+
+    def cancelar_presupuesto(self):
+        print("hola mundo")
+
 

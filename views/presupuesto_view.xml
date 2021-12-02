@@ -7,6 +7,11 @@
             <field name="model">presupuesto</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button name="aprobar_presupuesto" type="object" string="Aprobado" class="oe_highlight"/>
+                        <button name="cancelar_presupuesto" type="object" string="Cancelar" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="borrador,aprobado"/>
+                    </header>
                     <sheet>
                         <widget name="web_ribbon" title="archivado" bg_color="bg-danger" attrs="{'invisible':[('active','=',True)]}"/>
                         <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128',
@@ -38,6 +43,7 @@
                                 <field name="director_id" domain="[('category_id', 'in',[categoria_director_id])]" options="{'no_create': True, 'no_open':True}"/>
                                 <field name="categoria_director_id" invisible="1"/>
                                 <field name="link_trailer" widget="url"/>
+
                             </group>
                             <group>
                                 <field name="es_libro" widget="boolean_toggle"/>

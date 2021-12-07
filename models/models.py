@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+import logging 
+
+logger = logging.getLogger(__name__)
 
 class  Presupuesto(models.Model):
     _name = 'presupuesto'
@@ -31,9 +34,10 @@ class  Presupuesto(models.Model):
                              default="borrador", string="Estados", copy=False)
 
     def aprobar_presupuesto(self):
-        print("hola mundo")
+        self.state = 'aprobado'
+
 
     def cancelar_presupuesto(self):
-        print("hola mundo")
+        self.state = 'cancelado'
 
 

@@ -8,8 +8,8 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="aprobar_presupuesto" type="object" string="Aprobado" class="oe_highlight"/>
-                        <button name="cancelar_presupuesto" type="object" string="Cancelar" class="oe_highlight"/>
+                        <button name="aprobar_presupuesto" type="object" string="Aprobado" class="oe_highlight" states="borrador"/>
+                        <button name="cancelar_presupuesto" type="object" string="Cancelar" class="oe_highlight" states="borrador,aprobado"/>
                         <field name="state" widget="statusbar" statusbar_visible="borrador,aprobado"/>
                     </header>
                     <sheet>
@@ -38,7 +38,7 @@
                         </div>
 
                         <group string="Datos Principales" style="margin-top: -10px;">
-                            <field name="vista_general" placeholder="Vista General..."/>
+                            <field name="vista_general" placeholder="Vista General..." attrs="{'readonly':[('state','!=','borrador')]}"/>
                             <group>
                                 <field name="director_id" domain="[('category_id', 'in',[categoria_director_id])]" options="{'no_create': True, 'no_open':True}"/>
                                 <field name="categoria_director_id" invisible="1"/>

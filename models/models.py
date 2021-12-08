@@ -32,9 +32,11 @@ class  Presupuesto(models.Model):
                                         ('aprobado', 'Aprobado'),
                                         ('cancelado', 'Cancelado')],
                              default="borrador", string="Estados", copy=False)
+    fhc_aprobado = fields.Datetime(string="Fecha de Aprobacion", copy=False)
 
     def aprobar_presupuesto(self):
         self.state = 'aprobado'
+        self.fhc_aprobado = fields.Datetime.now()
 
 
     def cancelar_presupuesto(self):

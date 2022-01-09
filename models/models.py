@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-import logging 
+import logging
+from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +18,7 @@ class  Presupuesto(models.Model):
                                                ('r', 'R'),
                                                ('nc-17', 'NC-17')
                                                ], string="Clasificacion")
+    des_clasificacion = fields.Char(string="Descripccion Clasificacion")
     puntuacion = fields.Integer(string="Puntuacion", related="puntuacion2")
     active = fields.Boolean(string="Activo", default=True)
     director_id = fields.Many2one(comodel_name="res.partner", string="Director")
@@ -42,4 +44,47 @@ class  Presupuesto(models.Model):
     def cancelar_presupuesto(self):
         self.state = 'cancelado'
 
+    ##sobreescribir la funcion unlink para que odoo siga funcionando bien se agrega super
+    def unlink(self):
+        logger.info("******************************FUNCION UNLINK*************************")
+        if self.state == "cancelado":
+            super(Presupuesto, self).unlink()
+        else:
+            raise UserError("no se puede borrar el registro por que no se encuentra en el estado cancelado")
+
+    ##funcion create necesita un decorador
+    @api.model
+    def create(self, variables):
+        logger.info("*** variables{0}".format(variables))
+        return super(Presupuesto, self).create(variables)
+
+    ##funcion write
+    def write(self, variables):
+        logger.info("*** variables{0}".format(variables))
+        if 'clasificacion' in variables:
+            raise UserError("la Clasificaion no se puede editar !!")
+        return super(Presupuesto, self).write(variables)
+
+    ##funcion copy
+    def copy(self, default=None):
+        default =dict(default or {})
+        default['name'] = self.name + '(Copia)'
+        default['puntuacion2'] = 1
+        return super(Presupuesto, self).copy(default)
+
+    @api.onchange('clasificacion')
+    def _onchange_clasificacion(self):
+        if self.clasificacion:
+            if self.clasificacion == 'g':
+                self.des_clasificacion = "Publico general"
+            if self.clasificacion == 'pg':
+                self.des_clasificacion = "Se Recomienda compañia de un adulto"
+            if self.clasificacion == 'pg-13':
+                self.des_clasificacion = "Mayores de 13"
+            if self.clasificacion == 'r':
+                self.des_clasificacion = "En Compañia de un adulto obligatorio"
+            if self.clasificacion == 'nc-17':
+                self.des_clasificacion = "Solo Adultos"
+        else:
+            self.des_clasificacion = False
 

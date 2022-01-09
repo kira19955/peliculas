@@ -12,6 +12,11 @@
                         <button name="cancelar_presupuesto" type="object" string="Cancelar" class="oe_highlight" states="borrador,aprobado"/>
                         <field name="state" widget="statusbar" statusbar_visible="borrador,aprobado"/>
                     </header>
+
+                    <div class="alert alert-info" role="alert" style="margin-bottom: 0" attrs="{'invisible':[('des_clasificacion','=',False)]}">
+                        <field name="des_clasificacion" readonly="1" force_save="1"/>
+                    </div>
+
                     <sheet>
                         <widget name="web_ribbon" title="archivado" bg_color="bg-danger" attrs="{'invisible':[('active','=',True)]}"/>
                         <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128',

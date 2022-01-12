@@ -29,12 +29,17 @@ class  Presupuesto(models.Model):
     libro = fields.Binary(string="Libro")
     puntuacion2 = fields.Integer(string="Puntuacion")
     libro_file = fields.Char(string="Nombre del libro")
-    categoria_director_id = fields.Many2one(comodel_name="res.partner.category", string="Categoria Director", default=lambda self: self.env['res.partner.category'].search([('name', '=', 'Director')]))
+    categoria_director_id = fields.Many2one(comodel_name="res.partner.category", string="Categoria Director",
+                                            #segunda version
+                                            default=lambda self: self.env.ref('peliculas.category_director'))
+                                            #Primera version
+                                            #default=lambda self: self.env['res.partner.category'].search([('name', '=', 'Director')]))
     state = fields.Selection(selection=[('borrador', 'Borrador'),
                                         ('aprobado', 'Aprobado'),
                                         ('cancelado', 'Cancelado')],
                              default="borrador", string="Estados", copy=False)
     fhc_aprobado = fields.Datetime(string="Fecha de Aprobacion", copy=False)
+    num_presupuesto = fields.Char(string="Numero de presupuesto", copy=False)
 
     def aprobar_presupuesto(self):
         self.state = 'aprobado'
@@ -47,15 +52,19 @@ class  Presupuesto(models.Model):
     ##sobreescribir la funcion unlink para que odoo siga funcionando bien se agrega super
     def unlink(self):
         logger.info("******************************FUNCION UNLINK*************************")
-        if self.state == "cancelado":
-            super(Presupuesto, self).unlink()
-        else:
-            raise UserError("no se puede borrar el registro por que no se encuentra en el estado cancelado")
+        for record in self:
+            if record.state == "cancelado":
+                super(Presupuesto, record).unlink()
+            else:
+                raise UserError("no se puede borrar el registro por que no se encuentra en el estado cancelado")
 
     ##funcion create necesita un decorador
     @api.model
     def create(self, variables):
         logger.info("*** variables{0}".format(variables))
+        secuencia = self.env['ir.sequence']
+        correlativo = secuencia.next_by_code('secuencia.presupuesto.peliculas')
+        variables['num_presupuesto'] = correlativo
         return super(Presupuesto, self).create(variables)
 
     ##funcion write

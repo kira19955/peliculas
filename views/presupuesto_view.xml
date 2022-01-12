@@ -49,6 +49,7 @@
                                 <field name="categoria_director_id" invisible="1"/>
                                 <field name="link_trailer" widget="url"/>
                                 <field name="fhc_aprobado" readonly="1"/>
+                                <field name="num_presupuesto" readonly="1"/>
 
                             </group>
                             <group>

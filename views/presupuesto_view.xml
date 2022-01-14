@@ -48,9 +48,6 @@
                                 <field name="director_id" domain="[('category_id', 'in',[categoria_director_id])]" options="{'no_create': True, 'no_open':True}"/>
                                 <field name="categoria_director_id" invisible="1"/>
                                 <field name="link_trailer" widget="url"/>
-                                <field name="fhc_aprobado" readonly="1"/>
-                                <field name="num_presupuesto" readonly="1"/>
-
                             </group>
                             <group>
                                 <field name="es_libro" widget="boolean_toggle"/>
@@ -58,6 +55,29 @@
                                 <field name="libro_file" invisible="1"/>
                             </group>
                         </group>
+
+                        <separator string="Detalles"></separator>
+                        <notebook>
+                            <page string ="Presupuesto">
+                                <group>
+                                    <group>
+                                        <field name="fhc_aprobado" readonly="1"/>
+                                        <field name="num_presupuesto" readonly="1"/>
+                                        <field name="create_date" string="Fecha Creacion"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Otra Informacion">
+                                <group>
+                                        <field name="actor_ids" domain="[('category_id', 'in',[categoria_actor_id])]" options="{'no_create': True, 'no_open':True}"
+                                        widget="many2many_tags"/>
+                                        <field name="categoria_actor_id" invisible="1"/>
+                                    <field name="opinion"/>
+                                </group>
+                            </page>
+                        </notebook>
+
+
                     </sheet>
                 </form>
             </field>

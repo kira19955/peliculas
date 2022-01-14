@@ -40,6 +40,13 @@ class  Presupuesto(models.Model):
                              default="borrador", string="Estados", copy=False)
     fhc_aprobado = fields.Datetime(string="Fecha de Aprobacion", copy=False)
     num_presupuesto = fields.Char(string="Numero de presupuesto", copy=False)
+    actor_ids = fields.Many2many(comodel_name="res.partner", string="Actores")
+    categoria_actor_id = fields.Many2one(comodel_name="res.partner.category", string="Categoria actores",
+                                            default=lambda self: self.env.ref('peliculas.category_actor'))
+    opinion = fields.Html(string="Opinion")
+
+
+
 
     def aprobar_presupuesto(self):
         self.state = 'aprobado'

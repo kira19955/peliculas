@@ -66,6 +66,20 @@
                                         <field name="create_date" string="Fecha Creacion"/>
                                     </group>
                                 </group>
+                                <field name ="detalles_ids">
+                                    <tree editable="bottom">
+                                        <control>
+                                            <create name="add_product_control" string="agregar recurso cinematografico"/>
+                                        </control>
+                                        <field name="imagen"/>
+                                        <field name="name"/>
+                                        <field name="description"/>
+                                        <field name="contacto_id"/>
+                                        <field name="cantidad"/>
+                                        <field name="precio"/>
+                                        <field name="importe"/>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="Otra Informacion">
                                 <group>
@@ -76,8 +90,6 @@
                                 </group>
                             </page>
                         </notebook>
-
-
                     </sheet>
                 </form>
             </field>

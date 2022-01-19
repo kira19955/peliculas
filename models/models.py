@@ -44,6 +44,7 @@ class  Presupuesto(models.Model):
     categoria_actor_id = fields.Many2one(comodel_name="res.partner.category", string="Categoria actores",
                                             default=lambda self: self.env.ref('peliculas.category_actor'))
     opinion = fields.Html(string="Opinion")
+    detalles_ids = fields.One2many(comodel_name="presupuesto.detalle", inverse_name="presupuesto_id")
 
 
 
@@ -103,4 +104,17 @@ class  Presupuesto(models.Model):
                 self.des_clasificacion = "Solo Adultos"
         else:
             self.des_clasificacion = False
+
+class PresupuestoDetalle(models.Model):
+    _name = "presupuesto.detalle"
+
+    presupuesto_id = fields.Many2one(comodel_name="presupuesto", string="Presupuesto")
+
+    name = fields.Many2one(comodel_name='recurso.cinematografico', string="Recurso")
+    description = fields.Char(string="Descripcion", related="name.descripcion")
+    contacto_id = fields.Many2one(comodel_name='res.partner', string="Contacto", related="name.contacto_id")
+    imagen = fields.Binary(string="Imagen", related="name.imagen")
+    cantidad = fields.Float(string="Cantidad", default=1.0)
+    precio = fields.Float(string="Precio")
+    importe = fields.Float(string="Importe")
 

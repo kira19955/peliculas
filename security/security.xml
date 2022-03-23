@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.module.category" id="model_category_peliculas">
+            <field name="name">Pelicula</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record model="ir.module.category" id="model_category_peliculas_peliculas">
+            <field name="name">Pelicula</field>
+            <field name="sequence">1</field>
+            <field name="parent_id" ref="model_category_peliculas"/>
+        </record>
+
+        <record id="group_pelicula_usuario" model="res.groups">
+            <field name="name">Usuario solo puede ver sus propios presupuestos</field>
+            <field name="category_id" ref="model_category_peliculas_peliculas"/>
+        </record>
+
+        <record id="group_peliculas_admin" model="res.groups">
+            <field name="name">Administrador</field>
+            <field name="category_id" ref="model_category_peliculas_peliculas"/>
+            <field name="implied_ids" eval="[(4, ref('group_pelicula_usuario'))]"/>
+        </record>
+
+        <record id="peliculas.presupuesto_propio_user" model="ir.rule">
+            <field name="name">Presupuesto de peliculas propios</field>
+            <field ref="model_presupuesto" name="model_id"/>
+            <field name="domain_force">[('create_uid', '=',user.id )]</field>
+            <!--<field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="1"/>-->
+            <!-- You can attach this rule to a specific group, Or make it Global -->
+            <field name="groups" eval="[(4, ref('group_pelicula_usuario'))]"/>
+            <!--<field name="global" eval="1"/> -->
+        </record>
+
+         <record id="peliculas.presupuesto_todos_user" model="ir.rule">
+            <field name="name">Presupuesto de peliculas todos</field>
+            <field ref="model_presupuesto" name="model_id"/>
+            <field name="domain_force">[(1, '=',1 )]</field>
+            <!--<field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="1"/> -->
+            <!-- You can attach this rule to a specific group, Or make it Global -->
+            <field name="groups" eval="[(4, ref('group_peliculas_admin'))]"/>
+            <!--<field name="global" eval="1"/> -->
+        </record>
+
+
+    </data>
+</odoo>
